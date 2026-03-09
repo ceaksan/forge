@@ -70,10 +70,12 @@ digraph critique_flow {
 # Read implement note (metadata only - not self-assessment)
 basic-memory > search > query: "forge/active/[feature-name]_implement", project: "vault"
 
-# Extract git_sha from frontmatter
-# Then read the actual diff
-git diff [git_sha]..HEAD
+# Extract base_sha and head_sha from frontmatter
+# Diff the implementation range (what was actually implemented)
+git diff [base_sha]..[head_sha]
 ```
+
+**Important:** Use `base_sha..head_sha` (the implementation range), NOT `head_sha..HEAD`. The latter shows changes after implementation, which may be empty or include unrelated work.
 
 Do NOT read the "What was done" or "Decisions made" sections yet. Form your own view from the diff first.
 
@@ -174,7 +176,7 @@ Write to basic-memory:
 ---
 title: [feature-name] Critique
 category: forge/active
-status: CRITIQUING
+status: PASS | REJECTED
 verdict: PASS | REJECTED
 date: YYYY-MM-DD
 implements_note: [link to implement note]

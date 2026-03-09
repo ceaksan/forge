@@ -153,10 +153,15 @@ last_updated: YYYY-MM-DD
 Move completed feature notes from `active/` to `archive/`:
 
 ```
-basic-memory > move_note > identifier: "[note]", new_folder: "forge/archive"
+# Move the note
+basic-memory > move_note > identifier: "[note]", destination: "forge/archive", project: "vault"
+
+# Update status in frontmatter
+basic-memory > edit_note > identifier: "[note]", operation: "find_replace", find_text: "status: IMPLEMENTING", content: "status: ARCHIVED", project: "vault"
+basic-memory > edit_note > identifier: "[note]", operation: "find_replace", find_text: "status: PASS", content: "status: ARCHIVED", project: "vault"
 ```
 
-Update note frontmatter: `status: ARCHIVED`
+Note: `move_note` does not update frontmatter. Use a separate `edit_note` call to set `status: ARCHIVED`.
 
 ## Step 6: Stale Note Cleanup
 
@@ -173,8 +178,8 @@ For each stale note, present to user:
 
 | Note | Date | Age | Action? |
 |---|---|---|---|
-| feature-x_implement | 2024-01-05 | 45 days | Archive / Keep / Delete |
-| feature-y_critique | 2024-01-12 | 38 days | Archive / Keep / Delete |
+| feature-x_implement | [date from frontmatter] | [days since date] | Archive / Keep / Delete |
+| feature-y_critique | [date from frontmatter] | [days since date] | Archive / Keep / Delete |
 ```
 
 Wait for user decision on each.

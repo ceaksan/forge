@@ -22,7 +22,7 @@ Each skill reads from and writes to a shared memory layer. No skill starts cold.
 | Skill | Trigger | What it does | Writes to memory |
 |---|---|---|---|
 | **court** | `/court` | Multi-AI tribunal. Evaluates tech/architecture decisions with 8 criteria. GO/DEFER/KILL verdict. | `decisions/` |
-| **plan** | `/plan` | Native Claude Code planning + writing-plans constraints. Max 5 behavioral requirements per iteration. | - |
+| **plan** | `/plan` | Native Claude Code command (not a forge skill). Use with writing-plans constraints. Max 5 behavioral requirements per iteration. No memory note. | - |
 | **implement** | `/implement` | Execution with pre-plan approval gate. Worktree-isolated. | `active/` |
 | **critique** | `/critique` | Adversarial review. Forced output: min 2 risks, 1 perf bottleneck, 1 edge case. Pre-mortem framing. PASS/REJECTED verdict. | `active/` |
 | **retro** | `/retro` | Consolidates learnings into permanent patterns. Prunes stale notes. Memory garbage collector. | `core-rules/`, `archive/` |

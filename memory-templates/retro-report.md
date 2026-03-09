@@ -24,3 +24,6 @@ date: YYYY-MM-DD
 
 ## Notes Archived
 - [list]
+
+## Stale Notes Cleaned
+- [list of cleaned notes, or "None found"]

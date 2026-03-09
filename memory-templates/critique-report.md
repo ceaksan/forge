@@ -1,7 +1,7 @@
 ---
 title: [feature-name] Critique
 category: forge/active
-status: CRITIQUING
+status: PASS | REJECTED
 verdict: PASS | REJECTED
 date: YYYY-MM-DD
 implements_note: [link]

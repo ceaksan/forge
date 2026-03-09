@@ -18,7 +18,7 @@ court (evaluate) -> plan (structure) -> implement (build) -> critique (challenge
 | Situation | Start at |
 |---|---|
 | New feature / tech decision | `/court` |
-| Court gave GO, ready to plan | `/plan` (native) + writing-plans |
+| Court gave GO, ready to plan | `/plan` (native Claude Code command) + writing-plans skill. Not a forge skill, no memory note. |
 | Plan approved, ready to build | `/implement` |
 | Implementation done | `/critique` |
 | Feature shipped / sprint end | `/retro` |
@@ -55,7 +55,13 @@ Naming: `YYYY-MM-DD_[feature-name]_[stage].md`
 A feature moves through these states. Each state is visible in the memory note's frontmatter.
 
 ```
-DECIDED -> PLANNED -> IMPLEMENTING -> CRITIQUING -> PASS/REJECTED -> RETRO -> ARCHIVED
+DECIDED -> IMPLEMENTING -> PASS/REJECTED -> ARCHIVED
 ```
 
-REJECTED loops back to IMPLEMENTING with critique feedback attached.
+- DECIDED: `/court` gave GO verdict
+- IMPLEMENTING: `/implement` is working (note written on completion)
+- PASS: `/critique` approved
+- REJECTED: `/critique` found MUST_FIX issues, loops back to IMPLEMENTING
+- ARCHIVED: `/retro` consolidated learnings and moved notes
+
+Note: `/plan` is native Claude Code, not a forge skill. It has no pipeline state.

@@ -23,7 +23,6 @@ digraph implement_flow {
     "Check court GO in memory" [shape=box];
     "Court GO found?" [shape=diamond];
     "STOP - run /court first" [shape=box style=filled fillcolor=lightyellow];
-    "Read plan from memory" [shape=box];
     "Write execution plan" [shape=box];
     "User approves plan?" [shape=diamond];
     "Revise plan" [shape=box];
@@ -34,12 +33,11 @@ digraph implement_flow {
     "Draft commit message" [shape=box style=filled fillcolor=lightgreen];
 
     "Parse input" -> "Hotfix mode?";
-    "Hotfix mode?" -> "Read plan from memory" [label="yes, skip court"];
+    "Hotfix mode?" -> "Write execution plan" [label="yes, skip court"];
     "Hotfix mode?" -> "Check court GO in memory" [label="no"];
     "Check court GO in memory" -> "Court GO found?";
-    "Court GO found?" -> "Read plan from memory" [label="yes"];
+    "Court GO found?" -> "Write execution plan" [label="yes"];
     "Court GO found?" -> "STOP - run /court first" [label="no"];
-    "Read plan from memory" -> "Write execution plan";
     "Write execution plan" -> "User approves plan?";
     "User approves plan?" -> "Revise plan" [label="no"];
     "Revise plan" -> "User approves plan?";
@@ -51,17 +49,27 @@ digraph implement_flow {
 }
 ```
 
+## Step 0: Record Base SHA
+
+Before any changes, capture the current HEAD:
+
+```bash
+git rev-parse HEAD
+# Store this as base_sha - critique will diff against it
+```
+
 ## Step 1: Context Loading
 
 Read from basic-memory (project: vault):
 
 ```
-# Standard mode - read court decision and plan
+# Standard mode - read court decision
 basic-memory > search > query: "forge/decisions/[feature-name]", project: "vault"
-basic-memory > search > query: "forge/active/[feature-name]_plan", project: "vault"
 ```
 
-For `--hotfix`: skip court check. Read plan if one exists, otherwise proceed directly.
+**About /plan:** `/plan` is Claude Code's native planning mode, not a forge skill. Use it with `writing-plans` constraints before calling `/implement`. There is no plan note in memory. The plan lives in the conversation context or in a committed `docs/plans/` file.
+
+For `--hotfix`: skip court check. If no court decision exists, proceed directly with execution plan.
 
 ## Step 2: Execution Plan
 
@@ -112,6 +120,10 @@ Write to basic-memory after successful implementation:
 basic-memory > write_note > project: "vault"
 ```
 
+Note identifier: `[feature-name]_implement` (this is what `/critique` searches for).
+
+Write with: `basic-memory > write_note > title: "[feature-name] Implementation", directory: "forge/active", project: "vault"`
+
 Note format:
 
 ```markdown
@@ -121,7 +133,8 @@ category: forge/active
 status: IMPLEMENTING
 date: YYYY-MM-DD
 court_decision: [link or "HOTFIX"]
-git_sha: [current HEAD sha]
+base_sha: [SHA captured in Step 0, before changes]
+head_sha: [current HEAD sha, after changes]
 ---
 
 # [feature-name] Implementation
@@ -180,4 +193,4 @@ When `--hotfix` is used:
 | Not running tests | Tests are mandatory, not optional |
 | Writing memory note for broken code | Fix first, then write note |
 | Hotfixing what should be a feature | If it touches architecture or adds new patterns, it needs court |
-| Forgetting git SHA | Always capture HEAD sha in memory note |
+| Forgetting git SHA | Always capture base_sha (before) and head_sha (after) in memory note |
