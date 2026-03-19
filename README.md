@@ -4,6 +4,19 @@ A memory-backed decision-to-delivery pipeline for Claude Code. Sequential skills
 
 Built for solo developers who want structured rigor without enterprise overhead.
 
+## Why
+
+Solo developers make dozens of technical decisions per week. Most are undocumented. Context from last month's architecture choice is gone by the time this month's bug surfaces. Code reviews don't happen because there's no one to review. The same mistakes repeat across projects.
+
+Existing tools don't address this:
+
+- **AI chat sessions** are disposable. Context dies when the window closes.
+- **ADR templates** capture decisions but don't enforce evaluation or follow-up.
+- **Multi-agent frameworks** assume teams, budgets, and infrastructure you don't have.
+- **CLAUDE.md / AGENTS.md** define rules, not workflows. They tell the AI what to do, not how to think through a decision.
+
+Forge is a sequential pipeline where every decision is evaluated before implementation, every implementation is challenged before merge, and every outcome feeds back into permanent memory. Five skills, no agents, no infrastructure beyond your editor.
+
 ## Pipeline
 
 ```
