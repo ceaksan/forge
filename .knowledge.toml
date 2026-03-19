@@ -1,0 +1,17 @@
+[project]
+name = "forge"
+type = "content"
+
+[content]
+paths = ["skills", "docs", "memory-templates"]
+extensions = [".md"]
+
+[code]
+preset = "python"
+
+[graph]
+enabled = true
+edge_types = ["link", "tag", "semantic"]
+
+[indexing]
+ignore_patterns = [".git"]
